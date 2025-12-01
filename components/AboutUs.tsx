@@ -1,35 +1,58 @@
 
 import React from 'react';
+import { TargetIcon, PuzzleIcon } from './Icons';
 
 const AboutUs: React.FC = () => {
   return (
-    <section id="about" className="py-20 sm:py-32 bg-slate-900/50">
+    <section id="about" className="py-24 bg-slate-900 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:text-center">
-          <h2 className="text-base font-semibold tracking-wider text-cyan-400 uppercase">Nuestro Propósito</h2>
-          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-            Impulsando Negocios Sostenibles y Escalables
-          </p>
-          <p className="mt-4 max-w-2xl text-xl text-slate-300 lg:mx-auto">
-            Ayudamos a las organizaciones a evolucionar, optimizando procesos, potenciando a las personas y aplicando tecnología e inteligencia artificial.
-          </p>
+        
+        <div className="mb-16">
+            <h2 className="text-sm font-bold tracking-widest text-cyan-400 uppercase mb-3">Sobre Nosotros</h2>
+            <h3 className="text-3xl md:text-4xl font-bold text-white max-w-3xl">
+                Impulsando Negocios <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Sostenibles y Escalables</span>
+            </h3>
         </div>
 
-        <div className="mt-12 lg:mt-20 lg:grid lg:grid-cols-2 lg:gap-x-12 lg:items-center">
-            <div className="relative">
-                <h3 className="text-2xl font-bold text-white tracking-tight sm:text-3xl">Más de 20 años de experiencia integrada.</h3>
-                <p className="mt-3 text-lg text-slate-300">
-                    Integramos décadas de experiencia en dirección de proyectos, automatización industrial, infraestructura IT, análisis de datos, marketing y liderazgo de equipos, aplicando enfoques prácticos que generan resultados medibles y duraderos.
-                </p>
-                <p className="mt-4 text-lg text-slate-300">
-                    Nuestro valor diferencial está en combinar la experiencia corporativa y técnica con una mirada humana y estratégica, promoviendo el desarrollo de equipos autónomos.
+        <div className="grid lg:grid-cols-2 gap-8">
+            {/* Left Card */}
+            <div className="bg-slate-800/30 rounded-3xl p-8 border border-slate-700/50 hover:border-slate-600 transition-colors">
+                <div className="w-14 h-14 bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 text-blue-400">
+                    <TargetIcon className="w-8 h-8" />
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4">Nuestro Propósito</h4>
+                <p className="text-slate-400 text-lg leading-relaxed">
+                    Ayudamos a las organizaciones a evolucionar, optimizando procesos, potenciando a las personas y aplicando tecnología e inteligencia artificial. Creemos en la tecnología como un habilitador del potencial humano.
                 </p>
             </div>
-            <div className="mt-10 lg:mt-0 relative" aria-hidden="true">
-                <img className="relative mx-auto rounded-xl shadow-2xl opacity-80" width={490} src="https://picsum.photos/490/400?grayscale" alt="Team working" />
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-900 via-transparent to-blue-900 mix-blend-multiply rounded-xl"></div>
+
+            {/* Right Card */}
+            <div className="bg-slate-800/30 rounded-3xl p-8 border border-slate-700/50 hover:border-slate-600 transition-colors">
+                <div className="w-14 h-14 bg-cyan-900/30 rounded-2xl flex items-center justify-center mb-6 text-cyan-400">
+                    <PuzzleIcon className="w-8 h-8" />
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4">Experiencia Integrada</h4>
+                <p className="text-slate-400 text-lg leading-relaxed">
+                    +20 años integrando dirección de proyectos, automatización industrial, infraestructura IT y análisis de datos. Nuestro valor diferencial es combinar la solidez técnica con una mirada estratégica y humana.
+                </p>
             </div>
         </div>
+
+        {/* Large Image/Banner Section */}
+        <div className="mt-8 relative rounded-3xl overflow-hidden h-[300px] md:h-[400px] group">
+            <img 
+                src="https://picsum.photos/1200/600?grayscale" 
+                alt="Team Collaboration" 
+                className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 p-8 md:p-12">
+                <p className="text-white font-medium text-lg md:text-xl max-w-2xl border-l-4 border-cyan-500 pl-6">
+                    "No solo implementamos tecnología. Creamos entornos donde los equipos se vuelven autónomos y el negocio avanza con solidez."
+                </p>
+            </div>
+        </div>
+
       </div>
     </section>
   );

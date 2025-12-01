@@ -1,20 +1,27 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Logo } from './Icons';
 
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
-    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Function to handle smooth scrolling and prevent default navigation error
+    const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
         e.preventDefault();
-        const targetId = e.currentTarget.getAttribute('href')?.substring(1);
-        if (targetId) {
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
         }
-        setIsMenuOpen(false); // Close mobile menu on click
+        setIsMenuOpen(false);
     };
 
     const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -24,27 +31,45 @@ const Header: React.FC = () => {
     };
     
     return (
-        <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-slate-900/70 border-b border-slate-800">
+        <header 
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+                scrolled ? 'py-4 bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-slate-800' : 'py-6 bg-transparent'
+            }`}
+        >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex-shrink-0">
-                        <a href="#" aria-label="Home" onClick={handleHomeClick}>
-                            <Logo />
-                        </a>
-                    </div>
+                <div className="flex items-center justify-between">
+                    <a href="#" className="flex-shrink-0 flex items-center gap-2 cursor-pointer no-underline" onClick={handleHomeClick}>
+                        <Logo className="h-10 w-auto" />
+                        <span className="text-xl font-bold tracking-tight text-white hidden sm:block">VAE <span className="text-cyan-400">Consulting</span></span>
+                    </a>
+
                     {/* Desktop Menu */}
                     <nav className="hidden md:flex md:items-center md:space-x-8">
-                        <a href="#about" onClick={handleNavClick} className="text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Sobre Nosotros</a>
-                        <a href="#services" onClick={handleNavClick} className="text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Servicios</a>
-                        <a href="#team" onClick={handleNavClick} className="text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Equipo</a>
-                        <a href="#contact" onClick={handleNavClick} className="text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Contacto</a>
+                        {['About', 'Services', 'Team'].map((item) => (
+                            <a 
+                                key={item}
+                                href={`#${item.toLowerCase()}`} 
+                                onClick={(e) => handleScroll(e, item.toLowerCase())}
+                                className="text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 px-3 py-2 rounded-lg transition-all"
+                            >
+                                {item === 'About' ? 'Nosotros' : item === 'Services' ? 'Servicios' : 'Equipo'}
+                            </a>
+                        ))}
+                        <a 
+                            href="#contact" 
+                            onClick={(e) => handleScroll(e, 'contact')}
+                            className="bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-semibold py-2.5 px-6 rounded-full transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transform hover:-translate-y-0.5"
+                        >
+                            Contacto
+                        </a>
                     </nav>
+
                     {/* Mobile menu button */}
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             type="button"
-                            className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                            className="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
                             aria-controls="mobile-menu"
                             aria-expanded={isMenuOpen}
                         >
@@ -63,17 +88,33 @@ const Header: React.FC = () => {
                 </div>
             </div>
 
-            {/* Mobile menu, show/hide based on menu state. */}
-            {isMenuOpen && (
-                <div className="md:hidden" id="mobile-menu">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <a href="#about" onClick={handleNavClick} className="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Sobre Nosotros</a>
-                        <a href="#services" onClick={handleNavClick} className="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Servicios</a>
-                        <a href="#team" onClick={handleNavClick} className="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Equipo</a>
-                        <a href="#contact" onClick={handleNavClick} className="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contacto</a>
-                    </div>
+            {/* Mobile menu */}
+            <div 
+                className={`md:hidden absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 shadow-xl transition-all duration-300 overflow-hidden ${
+                    isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`} 
+                id="mobile-menu"
+            >
+                <div className="px-4 pt-4 pb-6 space-y-2">
+                    {['About', 'Services', 'Team'].map((item) => (
+                        <a 
+                            key={item}
+                            href={`#${item.toLowerCase()}`} 
+                            onClick={(e) => handleScroll(e, item.toLowerCase())}
+                            className="text-slate-300 hover:bg-slate-800 hover:text-white block px-4 py-3 rounded-lg text-base font-medium transition-colors"
+                        >
+                            {item === 'About' ? 'Nosotros' : item === 'Services' ? 'Servicios' : 'Equipo'}
+                        </a>
+                    ))}
+                    <a 
+                        href="#contact" 
+                        onClick={(e) => handleScroll(e, 'contact')}
+                        className="text-cyan-400 font-bold block px-4 py-3 rounded-lg text-base hover:bg-slate-800"
+                    >
+                        Contáctanos
+                    </a>
                 </div>
-            )}
+            </div>
         </header>
     );
 };

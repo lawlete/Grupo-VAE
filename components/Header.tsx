@@ -33,14 +33,13 @@ const Header: React.FC = () => {
     return (
         <header 
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-                scrolled ? 'py-4 bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-slate-800' : 'py-6 bg-transparent'
+                scrolled ? 'py-2 bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-slate-800' : 'py-4 bg-transparent'
             }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
-                    <a href="#" className="flex-shrink-0 flex items-center gap-2 cursor-pointer no-underline" onClick={handleHomeClick}>
-                        <Logo className="h-10 w-auto" />
-                        <span className="text-xl font-bold tracking-tight text-white hidden sm:block">VAE <span className="text-cyan-400">Consulting</span></span>
+                    <a href="#" className="flex-shrink-0 flex items-center cursor-pointer no-underline" onClick={handleHomeClick}>
+                        <Logo className="h-14 w-auto" />
                     </a>
 
                     {/* Desktop Menu */}

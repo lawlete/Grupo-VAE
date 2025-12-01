@@ -41,7 +41,7 @@ const AboutUs: React.FC = () => {
         {/* Large Image/Banner Section */}
         <div className="mt-8 relative rounded-3xl overflow-hidden h-[300px] md:h-[400px] group">
             <img 
-                src="https://picsum.photos/1200/600?grayscale" 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" 
                 alt="Team Collaboration" 
                 className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
             />
